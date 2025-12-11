@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import type { LEDWallCalculationResult } from '@/types/led-calculator';
 import { LEDPanelLayout } from './LEDPanelLayout';
+import { LEDPreview } from './LEDPreview';
 import {
   formatNumber,
   formatDimensions,
@@ -43,6 +44,7 @@ export const ResultsDisplay = ({
   className = '',
 }: ResultsDisplayProps) => {
   const [copiedSection, setCopiedSection] = useState<string | null>(null);
+  const [useEnhancedPreview, setUseEnhancedPreview] = useState(false);
 
   const handleCopy = async (text: string, sectionId: string) => {
     try {
@@ -156,10 +158,35 @@ export const ResultsDisplay = ({
       <div className="p-6 space-y-6">
         {/* Visual LED Panel Layout */}
         <section className="animate-fadeIn">
-          <LEDPanelLayout
-            screenWidth={input.screenWidth}
-            screenHeight={input.screenHeight}
-          />
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+              パネルレイアウト
+            </h3>
+            <button
+              onClick={() => setUseEnhancedPreview(!useEnhancedPreview)}
+              className="px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/50 rounded-lg transition-colors"
+            >
+              {useEnhancedPreview ? 'シンプル表示' : '詳細プレビュー'}
+            </button>
+          </div>
+          
+          {useEnhancedPreview ? (
+            <div className="h-[500px]">
+              <LEDPreview
+                screenWidth={input.screenWidth}
+                screenHeight={input.screenHeight}
+                panelWidth={input.panelWidth}
+                panelHeight={input.panelHeight}
+                ledPitch={input.ledPitch}
+                mode={panelCount > 500 ? 'compact' : 'detailed'}
+              />
+            </div>
+          ) : (
+            <LEDPanelLayout
+              screenWidth={input.screenWidth}
+              screenHeight={input.screenHeight}
+            />
+          )}
         </section>
 
         {/* Basic Information */}
