@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { LEDPanelForm } from '@/components/form';
-import { CalculationResult } from '@/components/results';
+import { ResultsDisplay } from '@/components/results';
 import { Header, Footer, ErrorBoundary } from '@/components/layout';
 import { calculateLEDWall } from '@/lib/calculations';
 import type { LEDPanelFormData } from '@/types/ledPanel';
@@ -107,7 +107,7 @@ export default function Home() {
                     <p className="text-sm text-red-800 dark:text-red-300">{error}</p>
                   </div>
                 ) : (
-                  <CalculationResult result={result} isLoading={isCalculating} />
+                  <ResultsDisplay result={result} isLoading={isCalculating} />
                 )}
               </div>
             </div>
