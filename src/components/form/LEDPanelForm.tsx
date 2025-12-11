@@ -258,6 +258,7 @@ export const LEDPanelForm = ({
         <button
           type="submit"
           className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900"
+          aria-label="LED計算を実行"
         >
           計算する
         </button>
