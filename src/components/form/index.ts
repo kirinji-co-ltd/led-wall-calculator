@@ -4,3 +4,7 @@ export { ErrorMessage } from './ErrorMessage';
 export type { ErrorMessageProps } from './ErrorMessage';
 export { LEDPanelForm } from './LEDPanelForm';
 export type { LEDPanelFormProps } from './LEDPanelForm';
+export { PresetSelector } from './PresetSelector';
+export type { PresetSelectorProps } from './PresetSelector';
+export { PresetManager } from './PresetManager';
+export type { PresetManagerProps } from './PresetManager';

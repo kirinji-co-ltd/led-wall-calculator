@@ -1,17 +1,29 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { LEDPanelForm } from '@/components/form';
+import { LEDPanelForm, PresetSelector, PresetManager } from '@/components/form';
 import { ResultsDisplay } from '@/components/results';
 import { Header, Footer, ErrorBoundary } from '@/components/layout';
 import { calculateLEDWall } from '@/lib/calculations';
 import type { LEDPanelFormData } from '@/types/ledPanel';
 import type { LEDWallCalculationResult, LEDWallInput } from '@/types/led-calculator';
+import type { LEDPreset } from '@/types/preset';
 
 export default function Home() {
   const [result, setResult] = useState<LEDWallCalculationResult | null>(null);
   const [isCalculating, setIsCalculating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [selectedPresetId, setSelectedPresetId] = useState<string | undefined>(undefined);
+  const [formData, setFormData] = useState<LEDPanelFormData>({
+    panelWidth: 0,
+    panelHeight: 0,
+    screenWidth: 0,
+    screenHeight: 0,
+    ledPitch: 0,
+    viewingDistance: 0,
+    budget: 0,
+  });
+  const [presetUpdateCounter, setPresetUpdateCounter] = useState(0);
 
   const performCalculation = useCallback((data: LEDPanelFormData) => {
     try {
@@ -45,11 +57,31 @@ export default function Home() {
     }
   }, []);
 
+  const handlePresetSelect = useCallback((preset: LEDPreset) => {
+    setSelectedPresetId(preset.id);
+    const newFormData = {
+      ...formData,
+      panelWidth: preset.panelWidth,
+      panelHeight: preset.panelHeight,
+      ledPitch: preset.ledPitch,
+    };
+    setFormData(newFormData);
+    performCalculation(newFormData);
+  }, [formData, performCalculation]);
+
+  const handlePresetsUpdate = useCallback(() => {
+    setPresetUpdateCounter(prev => prev + 1);
+  }, []);
+
   const handleSubmit = useCallback((data: LEDPanelFormData) => {
     performCalculation(data);
   }, [performCalculation]);
 
   const handleChange = useCallback((data: LEDPanelFormData) => {
+    // Update form data
+    setFormData(data);
+    // Clear preset selection when manually editing
+    setSelectedPresetId(undefined);
     // Real-time calculation on form change
     performCalculation(data);
   }, [performCalculation]);
@@ -71,10 +103,30 @@ export default function Home() {
               {/* Input Form Section */}
               <div>
                 <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-lg p-6 lg:p-8">
-                  <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50 mb-6">
-                    LEDパネル仕様入力
-                  </h2>
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">
+                      LEDパネル仕様入力
+                    </h2>
+                    <PresetManager
+                      currentValues={{
+                        panelWidth: formData.panelWidth,
+                        panelHeight: formData.panelHeight,
+                        ledPitch: formData.ledPitch,
+                      }}
+                      onPresetsUpdate={handlePresetsUpdate}
+                    />
+                  </div>
+                  
+                  <div className="mb-6">
+                    <PresetSelector
+                      key={presetUpdateCounter}
+                      onSelect={handlePresetSelect}
+                      selectedId={selectedPresetId}
+                    />
+                  </div>
+
                   <LEDPanelForm
+                    initialValues={formData}
                     onSubmit={handleSubmit}
                     onChange={handleChange}
                   />
