@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "tsc": "tsc --noEmit",
     "lint": "eslint",
     "test": "vitest run --config vitest.unit.config.ts",
     "test:watch": "vitest --config vitest.unit.config.ts",
