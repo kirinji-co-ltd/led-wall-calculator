@@ -13,13 +13,12 @@ export const Header = ({ className = '' }: HeaderProps) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="flex items-center justify-center w-10 h-10 bg-blue-600 rounded-lg">
+            <div className="flex items-center justify-center w-10 h-10 bg-blue-600 rounded-lg" aria-hidden="true">
               <svg
                 className="w-6 h-6 text-white"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
-                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
@@ -39,12 +38,12 @@ export const Header = ({ className = '' }: HeaderProps) => {
             </div>
           </div>
           
-          <nav className="hidden md:flex items-center space-x-4">
+          <nav aria-label="主要なナビゲーション" className="hidden md:flex items-center space-x-4">
             <a
               href="https://www.ledwallcentral.com/led-wall-calculator.cfm"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              className="text-sm text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900 rounded"
             >
               参考サイト
             </a>

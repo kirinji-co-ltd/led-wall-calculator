@@ -1,24 +1,125 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LEDウォール計算機 / LED Wall Calculator
+
+LEDパネルの仕様を入力して、画面サイズ、解像度、視聴距離などを計算するツールです。
+
+This is a [Next.js](https://nextjs.org) project for calculating LED wall specifications including screen size, resolution, and viewing distance.
+
+## Features
+
+- 🧮 **リアルタイム計算** - Real-time calculation of LED wall specifications
+- 📊 **詳細な結果表示** - Detailed results with visual preview
+- 🎨 **プリセット機能** - Built-in and custom presets for common panel configurations
+- ♿ **フルアクセシビリティ対応** - WCAG 2.1 AA compliant with keyboard navigation
+- 🌙 **ダークモード対応** - Dark mode support
+- 📱 **レスポンシブデザイン** - Mobile-friendly responsive design
+- ✅ **包括的なテスト** - Comprehensive test coverage with accessibility testing
 
 ## Getting Started
 
-First, run the development server:
+### Development Server
+
+First, install dependencies and run the development server:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Building for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
+
+## Testing
+
+### Unit Tests
+
+Run unit tests with Vitest:
+
+```bash
+# Run all tests
+npm test
+
+# Watch mode
+npm run test:watch
+
+# With coverage
+npx vitest run --config vitest.unit.config.ts --coverage
+```
+
+### E2E Tests
+
+Run end-to-end tests with Playwright:
+
+```bash
+# Run E2E tests
+npm run test:e2e
+
+# UI mode
+npm run test:e2e:ui
+
+# Headed mode (visible browser)
+npm run test:e2e:headed
+```
+
+### Storybook
+
+View and test components in isolation:
+
+```bash
+npm run storybook
+```
+
+## Accessibility
+
+このアプリケーションはWCAG 2.1 AAレベルに準拠しています。
+This application complies with WCAG 2.1 Level AA standards.
+
+- ✅ Full keyboard navigation support
+- ✅ Screen reader compatible
+- ✅ Proper ARIA attributes
+- ✅ Focus management
+- ✅ Color contrast compliance (4.5:1+)
+- ✅ Automated accessibility testing with axe-core
+
+詳細は [ACCESSIBILITY.md](./ACCESSIBILITY.md) をご覧ください。
+For details, see [ACCESSIBILITY.md](./ACCESSIBILITY.md).
+
+## Project Structure
+
+```
+led-wall-calculator/
+├── src/
+│   ├── app/              # Next.js app router pages
+│   ├── components/       # React components
+│   │   ├── form/        # Form components
+│   │   ├── layout/      # Layout components
+│   │   └── results/     # Results display components
+│   ├── lib/             # Utility functions and calculations
+│   └── types/           # TypeScript type definitions
+├── e2e/                 # Playwright E2E tests
+├── public/              # Static assets
+└── .storybook/          # Storybook configuration
+```
+
+## Technology Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **UI Library**: React 19.2
+- **Styling**: Tailwind CSS 4
+- **Language**: TypeScript
+- **Testing**: 
+  - Vitest (Unit tests)
+  - React Testing Library
+  - Playwright (E2E tests)
+  - vitest-axe (Accessibility testing)
+- **Development Tools**:
+  - Storybook (Component development)
+  - ESLint (Linting)
 
 ## Learn More
 
@@ -34,3 +135,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## License
+
+This project is open source and available under the MIT License.

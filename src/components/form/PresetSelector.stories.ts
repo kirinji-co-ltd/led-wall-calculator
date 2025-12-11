@@ -17,11 +17,14 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    onSelect: () => {},
+  },
 };
 
 export const WithSelectedPreset: Story = {
   args: {
+    onSelect: () => {},
     selectedId: 'panel-500x500',
   },
 };
