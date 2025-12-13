@@ -45,3 +45,8 @@ storybook-static
 
 # Screenshots
 /led-calculator-*.png
+
+# Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
