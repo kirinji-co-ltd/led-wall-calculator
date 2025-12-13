@@ -430,6 +430,57 @@ describe('LED Wall Calculations', () => {
       expect(result.physicalSize.height).toBe(250);
       expect(result.physicalSize.area).toBe(0.0625); // 0.25m * 0.25m
     });
+
+    it('should include panel model information when panel ID is provided', () => {
+      const input: LEDWallInput = {
+        panelWidth: 500,
+        panelHeight: 500,
+        screenWidth: 4,
+        screenHeight: 3,
+        ledPitch: 3.91,
+        selectedPanelId: 'q-plus-p3.9',
+      };
+
+      const result = calculateLEDWall(input);
+
+      expect(result.panelModel).toBeDefined();
+      expect(result.panelModel?.id).toBe('q-plus-p3.9');
+      expect(result.panelModel?.modelNumber).toBe('Q+3.9');
+      expect(result.panelModel?.displayName).toBe('Q+3.9');
+      expect(result.panelModel?.series).toBe('Q+');
+      expect(result.panelModel?.brightness).toBe(1200);
+      expect(result.panelModel?.refreshRate).toBe(3840);
+      expect(result.panelModel?.viewingAngle).toBe(160);
+    });
+
+    it('should not include panel model information when panel ID is not provided', () => {
+      const input: LEDWallInput = {
+        panelWidth: 500,
+        panelHeight: 500,
+        screenWidth: 4,
+        screenHeight: 3,
+        ledPitch: 3.91,
+      };
+
+      const result = calculateLEDWall(input);
+
+      expect(result.panelModel).toBeUndefined();
+    });
+
+    it('should not include panel model information when panel ID is invalid', () => {
+      const input: LEDWallInput = {
+        panelWidth: 500,
+        panelHeight: 500,
+        screenWidth: 4,
+        screenHeight: 3,
+        ledPitch: 3.91,
+        selectedPanelId: 'non-existent-panel',
+      };
+
+      const result = calculateLEDWall(input);
+
+      expect(result.panelModel).toBeUndefined();
+    });
   });
 
   describe('unitConversion', () => {
