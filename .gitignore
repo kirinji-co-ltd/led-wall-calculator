@@ -47,3 +47,6 @@ storybook-static
 
 # Screenshots
 /led-calculator-*.png
+
+# Demo screenshots
+*-demo.png
