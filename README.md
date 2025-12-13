@@ -9,6 +9,7 @@ This is a [Next.js](https://nextjs.org) project for calculating LED wall specifi
 - 🧮 **リアルタイム計算** - Real-time calculation of LED wall specifications
 - 📊 **詳細な結果表示** - Detailed results with visual preview
 - 🎨 **プリセット機能** - Built-in and custom presets for common panel configurations
+- 🔧 **拡張可能なパネルデータ** - Extensible LED panel data management with type safety
 - ♿ **フルアクセシビリティ対応** - WCAG 2.1 AA compliant with keyboard navigation
 - 🌙 **ダークモード対応** - Dark mode support
 - 📱 **レスポンシブデザイン** - Mobile-friendly responsive design
@@ -88,6 +89,51 @@ This application complies with WCAG 2.1 Level AA standards.
 
 詳細は [ACCESSIBILITY.md](./ACCESSIBILITY.md) をご覧ください。
 For details, see [ACCESSIBILITY.md](./ACCESSIBILITY.md).
+
+## LED Panel Data Management
+
+新しいLEDパネルモデルの追加は簡単で型安全です。
+Adding new LED panel models is easy and type-safe.
+
+### Quick Start
+
+1. Open `src/lib/panelModels.ts`
+2. Add your panel data to the `panelModelsData` array
+3. The system automatically validates and generates IDs
+4. Your panel is immediately available throughout the app
+
+### Example
+
+```typescript
+{
+  modelNumber: 'Q+6.0',
+  displayName: 'Q+6.0',
+  series: 'Q+',
+  panelWidth: 576,
+  panelHeight: 576,
+  pixelPitch: 6.0,
+  brightness: 5000,
+  description: '大型スタジアム向けLEDパネル',
+  useCase: 'スタジアム、大型イベント',
+}
+```
+
+### Documentation
+
+- 📖 **[Panel Data Management Guide](./PANEL_DATA_MANAGEMENT.md)** - Complete documentation
+- 📝 **[Adding New Panel Example](./ADDING_NEW_PANEL_EXAMPLE.md)** - Step-by-step example
+- 🔍 **Type Definitions**: `src/types/ledPanel.ts`
+- 🛠️ **Utilities**: `src/lib/panels.ts`
+- 📦 **Panel Database**: `src/lib/panelModels.ts`
+
+### Features
+
+- ✅ **Type-safe** - Full TypeScript support
+- ✅ **Auto-validation** - Data integrity checks
+- ✅ **Auto-ID generation** - No manual ID management
+- ✅ **Extensible** - Easy to add new fields
+- ✅ **JSON support** - Import from external sources
+- ✅ **Comprehensive tests** - 28+ validation tests
 
 ## Project Structure
 
