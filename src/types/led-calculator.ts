@@ -18,6 +18,8 @@ export interface LEDWallInput {
   ledPitch: number;
   /** パネルあたりの価格（円） - オプション */
   pricePerPanel?: number;
+  /** 選択されたパネルモデルID - オプション */
+  selectedPanelId?: string;
 }
 
 /**
@@ -69,6 +71,26 @@ export interface CostEstimate {
 }
 
 /**
+ * Panel model information in calculation result
+ */
+export interface PanelModelInfo {
+  /** Panel model ID */
+  id: string;
+  /** Model number/name */
+  modelNumber: string;
+  /** Display name */
+  displayName: string;
+  /** Product series */
+  series: string;
+  /** Brightness in nits */
+  brightness: number;
+  /** Refresh rate in Hz */
+  refreshRate?: number;
+  /** Viewing angle in degrees */
+  viewingAngle?: number;
+}
+
+/**
  * Complete calculation results for LED wall
  */
 export interface LEDWallCalculationResult {
@@ -86,6 +108,8 @@ export interface LEDWallCalculationResult {
   viewingDistance: ViewingDistance;
   /** コスト見積もり（pricePerPanelが指定されている場合のみ） */
   costEstimate?: CostEstimate;
+  /** 選択されたパネルモデル情報（selectedPanelIdが指定されている場合のみ） */
+  panelModel?: PanelModelInfo;
 }
 
 /**
