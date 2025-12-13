@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+/test-results/
+/playwright-report/
 
 # next.js
 /.next/
@@ -45,3 +47,6 @@ storybook-static
 
 # Screenshots
 /led-calculator-*.png
+
+# Demo screenshots
+*-demo.png
