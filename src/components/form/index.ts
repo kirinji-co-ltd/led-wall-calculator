@@ -10,3 +10,5 @@ export { PresetManager } from './PresetManager';
 export type { PresetManagerProps } from './PresetManager';
 export { PanelSelector } from './PanelSelector';
 export type { PanelSelectorProps } from './PanelSelector';
+export { PanelDetail } from './PanelDetail';
+export type { PanelDetailProps } from './PanelDetail';

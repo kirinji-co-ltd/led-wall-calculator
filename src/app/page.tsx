@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { LEDPanelForm, PresetSelector, PresetManager, PanelSelector } from '@/components/form';
+import { LEDPanelForm, PresetSelector, PresetManager, PanelSelector, PanelDetail } from '@/components/form';
 import { ResultsDisplay } from '@/components/results';
 import { Header, Footer, ErrorBoundary } from '@/components/layout';
 import { calculateLEDWall } from '@/lib/calculations';
@@ -124,6 +124,15 @@ export default function Home() {
                 onSelect={handlePanelSelect}
               />
             </div>
+
+            {/* Panel Detail Section - Show when a panel is selected */}
+            {selectedPanelId && (
+              <div className="mb-8">
+                <PanelDetail 
+                  panel={panelModels.find(p => p.id === selectedPanelId)!}
+                />
+              </div>
+            )}
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Input Form Section */}
