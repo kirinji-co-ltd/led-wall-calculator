@@ -8,3 +8,5 @@ export { PresetSelector } from './PresetSelector';
 export type { PresetSelectorProps } from './PresetSelector';
 export { PresetManager } from './PresetManager';
 export type { PresetManagerProps } from './PresetManager';
+export { PanelSelector } from './PanelSelector';
+export type { PanelSelectorProps } from './PanelSelector';

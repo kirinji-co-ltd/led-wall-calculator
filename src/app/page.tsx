@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { LEDPanelForm, PresetSelector, PresetManager } from '@/components/form';
+import { LEDPanelForm, PresetSelector, PresetManager, PanelSelector } from '@/components/form';
 import { ResultsDisplay } from '@/components/results';
 import { Header, Footer, ErrorBoundary } from '@/components/layout';
 import { calculateLEDWall } from '@/lib/calculations';
-import type { LEDPanelFormData } from '@/types/ledPanel';
+import { panelModels } from '@/lib/panelModels';
+import type { LEDPanelFormData, LEDPanelModel } from '@/types/ledPanel';
 import type { LEDWallCalculationResult, LEDWallInput } from '@/types/led-calculator';
 import type { LEDPreset } from '@/types/preset';
 
@@ -14,6 +15,7 @@ export default function Home() {
   const [isCalculating, setIsCalculating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedPresetId, setSelectedPresetId] = useState<string | undefined>(undefined);
+  const [selectedPanelId, setSelectedPanelId] = useState<string | undefined>(undefined);
   const [formData, setFormData] = useState<LEDPanelFormData>({
     panelWidth: 0,
     panelHeight: 0,
@@ -57,8 +59,22 @@ export default function Home() {
     }
   }, []);
 
+  const handlePanelSelect = useCallback((panel: LEDPanelModel) => {
+    setSelectedPanelId(panel.id);
+    setSelectedPresetId(undefined);
+    const newFormData = {
+      ...formData,
+      panelWidth: panel.panelWidth,
+      panelHeight: panel.panelHeight,
+      ledPitch: panel.pixelPitch,
+    };
+    setFormData(newFormData);
+    performCalculation(newFormData);
+  }, [formData, performCalculation]);
+
   const handlePresetSelect = useCallback((preset: LEDPreset) => {
     setSelectedPresetId(preset.id);
+    setSelectedPanelId(undefined);
     const newFormData = {
       ...formData,
       panelWidth: preset.panelWidth,
@@ -80,8 +96,9 @@ export default function Home() {
   const handleChange = useCallback((data: LEDPanelFormData) => {
     // Update form data
     setFormData(data);
-    // Clear preset selection when manually editing
+    // Clear selections when manually editing
     setSelectedPresetId(undefined);
+    setSelectedPanelId(undefined);
     // Real-time calculation on form change
     performCalculation(data);
   }, [performCalculation]);
@@ -97,6 +114,15 @@ export default function Home() {
               <p className="text-lg text-zinc-600 dark:text-zinc-400">
                 LEDパネルの仕様を入力して、画面サイズや解像度を計算します
               </p>
+            </div>
+
+            {/* Panel Selector Section */}
+            <div className="mb-8 bg-white dark:bg-zinc-900 rounded-2xl shadow-lg p-6 lg:p-8">
+              <PanelSelector
+                panels={panelModels}
+                selectedPanelId={selectedPanelId}
+                onSelect={handlePanelSelect}
+              />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
