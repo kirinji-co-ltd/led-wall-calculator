@@ -1,15 +1,23 @@
 /**
  * LED Panel Model Database
  * Contains information about available LED panel models
+ * 
+ * To add a new panel model:
+ * 1. Add panel data to the panelModelsData array below
+ * 2. The system will automatically validate and generate IDs
+ * 3. Run tests to ensure data integrity
  */
 
-import type { LEDPanelModel } from '@/types/ledPanel';
+import type { LEDPanelModel, LEDPanelModelInput } from '@/types/ledPanel';
+import { createPanelModels } from '@/lib/panels';
 
 /**
- * Q+ Series LED Panels
+ * Q+ Series LED Panels Data
  * High-quality indoor LED panels
+ * 
+ * Note: ID field is optional - it will be auto-generated if not provided
  */
-export const panelModels: LEDPanelModel[] = [
+const panelModelsData: LEDPanelModelInput[] = [
   {
     id: 'q-plus-p1.5',
     modelNumber: 'Q+1.5',
@@ -107,6 +115,26 @@ export const panelModels: LEDPanelModel[] = [
     useCase: 'スタジアム、大型イベント、屋外広告',
   },
 ];
+
+/**
+ * Validated and processed panel models
+ * All panels in this array have been validated for data integrity
+ */
+const { panels, errors } = createPanelModels(panelModelsData);
+
+// Throw error if any panel data is invalid
+if (errors.length > 0) {
+  const errorMessages = errors.map(
+    ({ input, errors }) => `Panel "${input.modelNumber}": ${errors.join(', ')}`
+  );
+  throw new Error(`Invalid panel model data detected:\n${errorMessages.join('\n')}`);
+}
+
+/**
+ * All available LED panel models
+ * Exported for use throughout the application
+ */
+export const panelModels: LEDPanelModel[] = panels;
 
 /**
  * Get panel model by ID

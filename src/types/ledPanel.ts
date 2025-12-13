@@ -66,3 +66,35 @@ export interface LEDPanelModel {
   /** Price per panel (optional) */
   pricePerPanel?: number;
 }
+
+/**
+ * Input type for creating a new LED panel model
+ * All required fields must be provided
+ */
+export type LEDPanelModelInput = Omit<LEDPanelModel, 'id'> & {
+  /** ID is optional on input - will be auto-generated if not provided */
+  id?: string;
+};
+
+/**
+ * Validation result for LED panel data
+ */
+export interface PanelValidationResult {
+  isValid: boolean;
+  errors: string[];
+}
+
+/**
+ * Panel data validation constraints
+ */
+export const PANEL_CONSTRAINTS = {
+  panelWidth: { min: 100, max: 5000 },
+  panelHeight: { min: 100, max: 5000 },
+  pixelPitch: { min: 0.5, max: 50 },
+  brightness: { min: 100, max: 10000 },
+  refreshRate: { min: 60, max: 7680 },
+  viewingAngle: { min: 10, max: 180 },
+  weight: { min: 0.1, max: 100 },
+  powerConsumption: { min: 10, max: 2000 },
+  pricePerPanel: { min: 0, max: 10000000 },
+} as const;
