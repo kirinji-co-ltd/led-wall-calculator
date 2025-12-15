@@ -57,10 +57,26 @@ export const ResultsDisplay = ({
   };
 
   const formatResultsAsText = (result: LEDWallCalculationResult): string => {
-    const { resolution, physicalSize, pixelDensity, viewingDistance, panelCount, costEstimate, input } = result;
+    const { resolution, physicalSize, pixelDensity, viewingDistance, panelCount, costEstimate, input, panelModel } = result;
     const size = formatPhysicalSize(physicalSize.width, physicalSize.height);
     
     let text = '=== LED Wall 計算結果 ===\n\n';
+    
+    if (panelModel) {
+      text += `【選択パネル】\n`;
+      text += `モデル: ${panelModel.displayName}\n`;
+      text += `型番: ${panelModel.modelNumber}\n`;
+      text += `シリーズ: ${panelModel.series}\n`;
+      text += `輝度: ${panelModel.brightness} nits\n`;
+      if (panelModel.refreshRate) {
+        text += `リフレッシュレート: ${panelModel.refreshRate} Hz\n`;
+      }
+      if (panelModel.viewingAngle) {
+        text += `視野角: ${panelModel.viewingAngle}°\n`;
+      }
+      text += '\n';
+    }
+    
     text += `【パネル構成】\n`;
     text += `総パネル数: ${formatPanelCount(panelCount, input.screenWidth, input.screenHeight)}\n`;
     text += `ピクセルピッチ: ${input.ledPitch} mm\n\n`;
@@ -121,7 +137,7 @@ export const ResultsDisplay = ({
     );
   }
 
-  const { resolution, physicalSize, pixelDensity, viewingDistance, panelCount, costEstimate, input } = result;
+  const { resolution, physicalSize, pixelDensity, viewingDistance, panelCount, costEstimate, input, panelModel } = result;
   const size = formatPhysicalSize(physicalSize.width, physicalSize.height);
 
   return (
@@ -156,6 +172,57 @@ export const ResultsDisplay = ({
       </div>
 
       <div className="p-6 space-y-6">
+        {/* Panel Model Information - Show when a panel is selected */}
+        {panelModel && (
+          <section className="animate-fadeIn bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 rounded-xl p-6 border-2 border-blue-200 dark:border-blue-800">
+            <div className="flex items-start justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-600 dark:bg-blue-500 rounded-lg">
+                  <Monitor className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-blue-900 dark:text-blue-100">
+                    {panelModel.displayName}
+                  </h3>
+                  <p className="text-sm text-blue-700 dark:text-blue-300">
+                    {panelModel.series}シリーズ
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+              <div className="bg-white dark:bg-zinc-900/50 rounded-lg p-3 border border-blue-200 dark:border-blue-800">
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-1">型番</p>
+                <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                  {panelModel.modelNumber}
+                </p>
+              </div>
+              <div className="bg-white dark:bg-zinc-900/50 rounded-lg p-3 border border-blue-200 dark:border-blue-800">
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-1">輝度</p>
+                <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                  {panelModel.brightness} nits
+                </p>
+              </div>
+              {panelModel.refreshRate && (
+                <div className="bg-white dark:bg-zinc-900/50 rounded-lg p-3 border border-blue-200 dark:border-blue-800">
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-1">リフレッシュレート</p>
+                  <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                    {panelModel.refreshRate} Hz
+                  </p>
+                </div>
+              )}
+              {panelModel.viewingAngle && (
+                <div className="bg-white dark:bg-zinc-900/50 rounded-lg p-3 border border-blue-200 dark:border-blue-800">
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-1">視野角</p>
+                  <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                    {panelModel.viewingAngle}°
+                  </p>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
         {/* Visual LED Panel Layout */}
         <section className="animate-fadeIn">
           <div className="mb-4 flex items-center justify-between">

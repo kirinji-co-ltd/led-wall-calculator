@@ -11,8 +11,10 @@ import type {
   PhysicalSize,
   ViewingDistance,
   CostEstimate,
+  PanelModelInfo,
 } from '@/types/led-calculator';
 import { CalculationError, CalculationErrorType } from '@/types/led-calculator';
+import { getPanelModelById } from './panelModels';
 
 /**
  * Validates input parameters for LED wall calculations
@@ -255,6 +257,23 @@ export function calculateLEDWall(input: LEDWallInput): LEDWallCalculationResult 
     ? calculateCostEstimate(panelCount, input.pricePerPanel, physicalSize.area)
     : undefined;
 
+  // Get panel model information if panel ID is provided
+  let panelModel: PanelModelInfo | undefined;
+  if (input.selectedPanelId) {
+    const panel = getPanelModelById(input.selectedPanelId);
+    if (panel) {
+      panelModel = {
+        id: panel.id,
+        modelNumber: panel.modelNumber,
+        displayName: panel.displayName,
+        series: panel.series,
+        brightness: panel.brightness,
+        refreshRate: panel.refreshRate,
+        viewingAngle: panel.viewingAngle,
+      };
+    }
+  }
+
   return {
     input,
     panelCount,
@@ -263,6 +282,7 @@ export function calculateLEDWall(input: LEDWallInput): LEDWallCalculationResult 
     pixelDensity: Math.round(pixelDensity),
     viewingDistance,
     costEstimate,
+    panelModel,
   };
 }
 

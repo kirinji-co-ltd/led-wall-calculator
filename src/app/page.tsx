@@ -27,7 +27,7 @@ export default function Home() {
   });
   const [presetUpdateCounter, setPresetUpdateCounter] = useState(0);
 
-  const performCalculation = useCallback((data: LEDPanelFormData) => {
+  const performCalculation = useCallback((data: LEDPanelFormData, panelId?: string) => {
     try {
       setIsCalculating(true);
       setError(null);
@@ -46,6 +46,7 @@ export default function Home() {
         screenWidth: data.screenWidth,
         screenHeight: data.screenHeight,
         ledPitch: data.ledPitch,
+        selectedPanelId: panelId,
       };
 
       const calculationResult = calculateLEDWall(input);
@@ -69,7 +70,7 @@ export default function Home() {
       ledPitch: panel.pixelPitch,
     };
     setFormData(newFormData);
-    performCalculation(newFormData);
+    performCalculation(newFormData, panel.id);
   }, [formData, performCalculation]);
 
   const handlePresetSelect = useCallback((preset: LEDPreset) => {
@@ -82,7 +83,7 @@ export default function Home() {
       ledPitch: preset.ledPitch,
     };
     setFormData(newFormData);
-    performCalculation(newFormData);
+    performCalculation(newFormData, undefined);
   }, [formData, performCalculation]);
 
   const handlePresetsUpdate = useCallback(() => {
@@ -90,8 +91,8 @@ export default function Home() {
   }, []);
 
   const handleSubmit = useCallback((data: LEDPanelFormData) => {
-    performCalculation(data);
-  }, [performCalculation]);
+    performCalculation(data, selectedPanelId);
+  }, [performCalculation, selectedPanelId]);
 
   const handleChange = useCallback((data: LEDPanelFormData) => {
     // Update form data
@@ -100,7 +101,7 @@ export default function Home() {
     setSelectedPresetId(undefined);
     setSelectedPanelId(undefined);
     // Real-time calculation on form change
-    performCalculation(data);
+    performCalculation(data, undefined);
   }, [performCalculation]);
 
   return (
